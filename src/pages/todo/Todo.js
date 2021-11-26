@@ -1,15 +1,30 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import { addTodo } from "../../redux/todo/TodoActions";
+import { addTodo, deleteTodo, setInitialData } from "../../redux/todo/TodoActions";
 
 const Todo = (props) => {
-  const { todos, addTodo } = props;
+  const { todos, addTodo, deleteTodo, setInitialData } = props;
   console.log(todos);
   const [inputValue, setInputValue] = useState("");
   const wrapper = useRef(null);
 
-  let handleSubmit = (e) => {
+  useEffect(()=>{
+    let data = localStorage.getItem("@data")
+    if(data){
+      setInitialData(JSON.parse(data))
+    }
+    else{
+      localStorage.setItem("@data", JSON.stringify(todos))
+    }
+  },[])
+
+  
+  useEffect(()=>{
+    localStorage.setItem("@data", JSON.stringify(todos))
+  },[todos])
+
+  let onFinish = (e) => {
     if (inputValue.length > 0) {
       e.preventDefault();
       let payload = {
@@ -30,7 +45,7 @@ const Todo = (props) => {
       <div className="todo-wrapper">
         <div id="myDIV" className="header">
           <h2 style={{ margin: "5px" }}>My To Do List</h2>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={onFinish}>
             <input
               ref={wrapper}
               onChange={(e) => setInputValue(e.target.value)}
@@ -47,7 +62,7 @@ const Todo = (props) => {
           <li>Hit the gym</li>
           <li className="checked">Pay bills</li>
           {todos.map((res) => {
-            return <li key={res.id}>{res.desc}</li>;
+            return <li className="" key={res.id}> <p>{res.desc}</p> <button className="btn btn-dark ml-auto" onClick={() => deleteTodo(res.id)}>DEL</button></li>;
           })}
         </ul>
       </div>
@@ -61,6 +76,8 @@ let mapState = (state) => ({
 
 let Actions = {
   addTodo,
+  deleteTodo,
+  setInitialData
 };
 
 export default connect(mapState, Actions)(Todo);
