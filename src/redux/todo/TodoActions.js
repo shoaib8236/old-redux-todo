@@ -17,3 +17,9 @@ export let setInitialData = (data) => ({
   payload: { data },
 }
 );
+
+
+export let completeTodo = (id) => ({
+  type: "COMPLETE_TODO",
+  payload: { id },
+});

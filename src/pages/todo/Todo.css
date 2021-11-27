@@ -58,6 +58,25 @@
   width: 7px;
 }
 
+.todo-wrapper .added-todo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+}
+
+.todo-wrapper .added-todo p {
+  margin: 0;
+  flex-grow: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.todo-wrapper .added-todo.active {
+  background-color: #28a745;
+  color: #fff;
+}
 /* Style the close button */
 .todo-wrapper .close {
   position: absolute;

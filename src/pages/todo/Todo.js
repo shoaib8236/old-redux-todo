@@ -1,10 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import { addTodo, deleteTodo, setInitialData } from "../../redux/todo/TodoActions";
+import {
+  addTodo,
+  deleteTodo,
+  completeTodo,
+  setInitialData,
+} from "../../redux/todo/TodoActions";
 
 const Todo = (props) => {
-  const { todos, addTodo, deleteTodo, setInitialData } = props;
+  const { todos, addTodo, deleteTodo, completeTodo, setInitialData } = props;
   console.log(todos);
   const [inputValue, setInputValue] = useState("");
   const wrapper = useRef(null);
@@ -60,9 +65,24 @@ const Todo = (props) => {
         </div>
         <ul id="myUL">
           <li>Hit the gym</li>
-          <li className="checked">Pay bills</li>
           {todos.map((res) => {
-            return <li className="" key={res.id}> <p>{res.desc}</p> <button className="btn btn-dark ml-auto" onClick={() => deleteTodo(res.id)}>DEL</button></li>;
+            return (
+              <li
+                className={`added-todo ${
+                  res.isComplete ? "active checked" : ""
+                }`}
+                key={res.id}>
+                <p>{res.desc}</p>{" "}
+                <div>
+                  <button
+                    onClick={() => deleteTodo(res.id)}
+                    className="btn btn-dark fa fa-trash mx-2"></button>
+                  <button
+                    onClick={() => completeTodo(res.id)}
+                    className="btn btn-dark fa fa-check mx-2"></button>
+                </div>
+              </li>
+            );
           })}
         </ul>
       </div>
@@ -77,7 +97,8 @@ let mapState = (state) => ({
 let Actions = {
   addTodo,
   deleteTodo,
-  setInitialData
+  setInitialData,
+  completeTodo,
 };
 
 export default connect(mapState, Actions)(Todo);
