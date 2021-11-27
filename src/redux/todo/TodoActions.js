@@ -10,16 +10,18 @@ export let deleteTodo = (id) => ({
 
 );
 
-
-
 export let setInitialData = (data) => ({
   type: "SET_INITIALDATA",
   payload: { data },
 }
 );
 
-
 export let completeTodo = (id) => ({
   type: "COMPLETE_TODO",
   payload: { id },
 });
+
+export let activeTodo = (id)=> ({
+  type: "ACTIVE_TODO",
+  payload: {id}
+})

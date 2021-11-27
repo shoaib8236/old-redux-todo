@@ -21,6 +21,17 @@ const todoReducer = (state = initialState, action) => {
           return v;
         }
       });
+      case "ACTIVE_TODO":
+        return state.map((v) => {
+          if (v.id === payload.id) {
+            return {
+              ...v,
+              isComplete: false,
+            };
+          } else {
+            return v;
+          }
+        });
     default:
       return state;
   }
