@@ -21,6 +21,11 @@ const Todo = (props) => {
     localStorage.setItem("@data", JSON.stringify(todos));
   }, [todos]);
 
+  let filtered = (e) => {
+    let tod = todos.filter((val) => e !== val.desc);
+    console.log(tod);
+  };
+
   return (
     <div className="todo-body">
       <div className="todo-wrapper">
@@ -29,6 +34,7 @@ const Todo = (props) => {
             TODO LIST <i className="fa fa-list-alt "></i>
           </h2>
           <TodoForm />
+          <input type="text" onChange={(e) => filtered(e)}></input>
         </div>
         <ul id="myUL">
           <li>
